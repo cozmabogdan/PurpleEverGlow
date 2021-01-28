@@ -3,26 +3,25 @@
 
 
 <div class="articles">
+    <% posts.forEach(function(post){ %>
+        <% const image = post.img; %>
     <div class="article-card">
-        <img src="/images/sa-invatam-sa-fim-asertivi.jpg">
+        <img src="data:image/<%=image.contentType%>;base64,
+                     <%=image.data.toString('base64')%>">
         <div class="card-info">
-            <h2>Sa invatam sa fim asertivi</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa officia neque cupiditate, quam velit magni deserunt soluta, ut aperiam eum vitae sed. Eos tempore libero, ducimus ab quam porro enim.</p>
+            <h2> <%= post.title %> </h2>
+            <p> 
+                <%=post.content.substring(0, 400) + " ..." %>
+                <a href="/post/<%=post._id%>">Citeste mai mult</a>
+            </p>
             <div class="author-card">
-                <p>Postat la blabla de blabla</p>
+                <% let monthNames = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"]; %> 
+                <% let month = monthNames[post.postedAt.getMonth()]; %>
+                <p>Postat la <a href="#"><%= post.postedAt.getDate() + ' ' + month + ' ' + post.postedAt.getFullYear()  %> </a> de <a class="author" href="#"><%= post.author %></a></p> 
             </div>
         </div>
-    </div>
-    <div class="article-card">
-        <img src="/images/sa-invatam-sa-fim-asertivi.jpg">
-        <div class="card-info">
-            <h2>Sa invatam sa fim asertivi</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa officia neque cupiditate, quam velit magni deserunt soluta, ut aperiam eum vitae sed. Eos tempore libero, ducimus ab quam porro enim.</p>
-            <div class="author-card">
-                <p>Postat la blabla de blabla</p>
-            </div>
-        </div>
-    </div>            
+    </div>  
+    <% }); %>      
 </div>
             
             

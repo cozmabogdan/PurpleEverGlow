@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/logo.png">
+    <link rel="stylesheet" href="/css/styles.css">
+
+    <title>PurpleEverGlow</title>
+</head>
+
+<body>
+    <main>
+        <section class="glass">
+            <div class="dashboard">
+                <div class="logo">
+                    <a href="<%= "/" %>"><img src="/images/logo.png"></a>
+                    <h1><a href="<%= "/" %>">PURPLE</a></h1>
+                    <h1><a href="<%= "/" %>">EVERGLOW</a></h1>
+                </div>
+                <div class="dashboard-links">
+                    <div class="dashboard-link">
+                        <a href="<%= "/admin" %>"><img src="/images/back.png"></a>
+                        <h2> <a href="<%= "/admin" %>">Inapoi</a></h2>
+                    </div>
+                </div>
+            </div>
+            <form class="form" action="/compose" method="POST" enctype="multipart/form-data">
+                <h1>Postare noua</h1>
+                <label>Titlu</label>
+                <input type="text" name="title" required>
+                <label>Articol</label>
+                <textarea name="content" rows="7"></textarea>                
+                <button class="button-upload" onclick="document.getElementById('image').click()">Incarca poza</button>
+                <input type="file" id="image" name="image" value="" required style="display:none;">
+                <button type="submit" name="button">Posteaza</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
