@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="images/logo.png">
+    <link rel="icon" href="/images/logo.png">
     <link rel="stylesheet" href="/css/styles.css">
 
     <title>PurpleEverGlow</title>
@@ -28,18 +28,25 @@
                     <h2> <a href="<%= "/modify" %>">Toate postarile</a></h2>
                 </div>
             </div>
-            <div class="scroll-section-modify">
-                <div class="articles">
-                    <% posts.forEach(function(post){ %>                    
-                    <div class="article-card">
-                        <div class="card-info">
-                            <a href="/post/<%=post._id%>"> <%= post.title %></a> 
-                            <br>
-                            <a href="/edit/<%=post._id%>">Edit</a><span class="card-info-span"></span><a href="/delete/<%=post._id%>">Delete</a>                                                      
-                        </div>
-                    </div>  
-                    <% }); %>      
+            <div class="edit-section">
+                <div class="scroll-section-edit">
+                    <div class="articles">                  
+                        <div class="article-card">
+                            <div class="card-info-single">
+                                <h2> <%= title %> </h2>
+                                <p><%= content %></p>                                                     
+                            </div>
+                        </div>     
+                    </div>
                 </div>
+                <form class="form-edit" action="/edit" method="POST" enctype="multipart/form-data">
+                    <h1>Editeaza postarea</h1>
+                    <label>Titlu</label>
+                    <input type="text" name="editTitle" required>
+                    <label>Articol</label>
+                    <textarea name="editBody" rows="7"></textarea>                                
+                    <button type="submit" name="button">Posteaza</button>
+                </form>
             </div>
         </section>
     </main>

@@ -1,26 +1,28 @@
 <!--header-->
 <%- include("partials/header.ejs"); %>
 
-<div class="articles">
-    <% posts.forEach(function(post){ %>
-        <% const image = post.img; %>
-    <div class="article-card">
-        <img src="data:image/<%=image.contentType%>;base64,
-                     <%=image.data.toString('base64')%>">
-        <div class="card-info">
-            <h2> <%= post.title %> </h2>
-            <p> 
-                <%=post.content.substring(0, 400) + " ..." %>
-                <a href="/post/<%=post._id%>">Citeste mai mult</a>
-            </p>
-            <div class="author-card">
-                <% let monthNames = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"]; %> 
-                <% let month = monthNames[post.postedAt.getMonth()]; %>
-                <p>Postat la <a href="#"><%= post.postedAt.getDate() + ' ' + month + ' ' + post.postedAt.getFullYear()  %> </a> de <a class="author" href="#"><%= post.author %></a></p> 
+<div class="scroll-section">
+    <div class="articles">
+        <% posts.forEach(function(post){ %>
+            <% const image = post.img; %>
+        <div class="article-card">
+            <img src="data:image/<%=image.contentType%>;base64,
+                        <%=image.data.toString('base64')%>">
+            <div class="card-info">
+                <h2> <%= post.title %> </h2>
+                <p> 
+                    <%=post.content.substring(0, 400) + " ..." %>
+                    <a href="/post/<%=post._id%>">Citeste mai mult</a>
+                </p>
+                <div class="author-card">
+                    <% let monthNames = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"]; %> 
+                    <% let month = monthNames[post.postedAt.getMonth()]; %>
+                    <p>Postat la <a href="#"><%= post.postedAt.getDate() + ' ' + month + ' ' + post.postedAt.getFullYear()  %> </a> de <a class="author" href="#"><%= post.author %></a></p> 
+                </div>
             </div>
-        </div>
-    </div>  
-    <% }); %>      
+        </div>  
+        <% }); %>      
+    </div>
 </div>
 
 <!--footer-->

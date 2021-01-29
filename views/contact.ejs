@@ -1,6 +1,16 @@
 <!--header-->
 <%- include("partials/header.ejs"); %>
 
+<form class="form" action="/compose" method="POST" enctype="multipart/form-data">
+    <h1>Contact</h1>
+    <label>Nume</label>
+    <input type="text" name="name" required>
+    <label>Email</label>
+    <input type="text" name="email" required>
+    <label>Mesaj</label>
+    <textarea name="content" rows="7"></textarea>                
+    <button type="submit" name="button">Trimite</button>
+</form>
 
 <!--footer-->
 <%- include("partials/footer.ejs"); %>

@@ -1,19 +1,21 @@
 <!--header-->
 <%- include("partials/header"); -%>
 
-<div class="articles">
-    <div class="article-card">
-        <img src="data:image/<% img %>;base64,
-                     <% img.data.toString('base64') %>">
-        <div class="card-info">
-            <h2> <%= title %> </h2>
-            <p> 
-                <%= content %>
-            </p>
-            <div class="author-card">
-                <% let monthNames = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"]; %> 
-                <% let month = monthNames[postedAt.getMonth()]; %>
-                <p>Postat la <a href="#"><%= postedAt.getDate() + ' ' + month + ' ' + postedAt.getFullYear()  %> </a> de <a class="author" href="#"><%= author %></a></p> 
+<div class="about-articles">
+    <div class="about-article-card">
+        <div class="img-post">
+            <img src="data:image/<%= posts.img.contentType %>;base64,
+                     <%= posts.img.data.toString('base64') %>">
+            <div class="card-info-single">
+                <h2> <%= posts.title %> </h2>
+                <p> 
+                    <%= posts.content %>
+                </p>
+                <div class="author-card">
+                    <% let monthNames = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"]; %> 
+                    <% let month = monthNames[posts.postedAt.getMonth()]; %>
+                    <p>Postat la <a href="#"><%= posts.postedAt.getDate() + ' ' + month + ' ' + posts.postedAt.getFullYear()  %> </a> de <a class="author" href="#"><%= posts.author %></a></p> 
+                </div>
             </div>
         </div>
     </div>      

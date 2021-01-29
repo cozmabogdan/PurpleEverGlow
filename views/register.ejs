@@ -1,0 +1,16 @@
+<!--header-->
+<%- include ("partials/header") %>
+
+<form class="form" action="/register" method="POST">
+    <h1>Inregistreaza-te!</h1>
+    <label>Username</label>
+    <input type="text" name="username" required>
+    <label>Parola</label>
+    <input type="text" name="password" required> 
+
+    <button type="submit" name="button">Trimite</button>
+    <p>Ai deja un cont? <a href="/login">Logheaza-te!</a></p>
+</form>
+
+<!--footer-->
+<%- include ("partials/footer") %>

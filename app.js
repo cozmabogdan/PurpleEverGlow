@@ -16,7 +16,7 @@ require("dotenv/config");
 const author = "Mircea Diandra";
 
 //empty variable for postID
-let requestedPostID = [];
+let requestedPostId = [];
 
 const app = express();
 
@@ -24,8 +24,21 @@ app.use(express.static("public"));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: false}));
 
-mongoose.connect("mongodb://localhost:27017/purpleEverGlow", {useNewUrlParser: true, useUnifiedTopology: true});
+//initialize session
+app.use(session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false
+}));
 
+//initialise passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+//connect to db
+mongoose.connect(process.env.DB_SERVER, {useNewUrlParser: true, useUnifiedTopology: true});
+
+//post schema
 const postSchema = new mongoose.Schema({
     title: String,
     content: String,
@@ -40,7 +53,23 @@ const postSchema = new mongoose.Schema({
     }
 });
 
+//admin schema
+const adminSchema = new mongoose.Schema({
+    username: String,
+    password: String
+});
+
+adminSchema.plugin(passportLocalMongoose);
+
+//mongoose model
 const Post = mongoose.model("Post", postSchema);
+const Admin = new mongoose.model("Admin", adminSchema);
+
+passport.use(Admin.createStrategy());
+
+passport.serializeUser(Admin.serializeUser());
+passport.deserializeUser(Admin.deserializeUser());
+
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
@@ -71,7 +100,7 @@ app.get("/posts", function(req, res){
         res.render("posts", {
             posts: posts
         });
-    });
+    }).sort({postedAt: -1})
 });
 
 app.get("/contact", function(req, res){
@@ -79,15 +108,15 @@ app.get("/contact", function(req, res){
 });
 
 app.get("/admin", function(req, res){
-    Post.find({}, function(err, posts){
-        res.render("admin", {
-            posts: posts
-        });
-    });
-});
-
-app.get("/modify", function(req, res){
-    res.render("modify");
+    if(req.isAuthenticated()) {
+        Post.find({}, function(err, posts){
+            res.render("admin", {
+                posts: posts
+            });
+        }).sort({postedAt: -1})
+    } else {
+        res.redirect("/login");
+    }
 });
 
 app.get("/delete", function(req, res){
@@ -108,6 +137,34 @@ app.get("/post/:postId", function(req, res){
     });
 });
 
+app.get("/register", function(req, res){
+    res.render("register");
+});
+
+app.get("/login", function(req, res){
+    res.render("login");
+});
+
+app.get("/modify", function(req, res){
+    Post.find({}, function(err, posts){
+        res.render("modify", {
+            posts: posts
+        });
+    })
+});
+
+app.get("/edit/:postId", function(req, res){
+    const articleId = req.params.postId;
+    requestedPostId.push(articleId);
+    console.log(articleId);
+    Post.findOne({_id: requestedPostId}, function(err, post){
+        let newLine = post.content.replace(/(\r\n)/gm, '<br><br>');
+        res.render("edit", {
+            title: post.title,
+            content: post.content
+        });
+    });
+});
 
 app.post("/compose", upload.single("image"), function(req, res){
     const newPost = new Post ({
@@ -128,6 +185,45 @@ app.post("/compose", upload.single("image"), function(req, res){
         }
     });
 });
+
+app.post("/login", function(req, res){
+    const admin = new Admin({
+        username: req.body.username,
+        password: req.body.password
+    });
+    req.login(admin, function(err){
+        if(err){
+            console.log(err);
+        } else {
+            passport.authenticate("local")(req, res, function(){
+                res.redirect("/admin");
+            });
+        }
+    });
+});
+
+app.post("/register", function(req, res){
+    Admin.register({username: req.body.username}, req.body.password, function(err, user){
+        if(err) {
+            console.log(err);
+            res.redirect("/register");
+        } else {
+            passport.authenticate("local")(req, res, function(){
+                res.redirect("/admin");
+            });
+        }
+    });
+});
+
+//replace one document in the DB
+app.post("/edit", function(req, res){
+    Post.replaceOne({_id: requestedPostId}, {title: req.body.editTitle, content: req.body.editBody}, function(err, post){
+        console.log(req.body.title);
+        requestedPostId.splice(0, 1);
+        res.redirect("modify");
+    });
+});
+
 
 app.listen(3000, function(){
     console.log("Server connected!")
