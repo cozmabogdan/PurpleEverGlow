@@ -1,12 +1,12 @@
 <!--header-->
 <%- include("partials/header.ejs"); %>
 
-<form class="form" action="/compose" method="POST" enctype="multipart/form-data">
+<form class="form" action="/contact" method="POST">
     <h1>Contact</h1>
-    <label>Nume</label>
-    <input type="text" name="name" required>
     <label>Email</label>
     <input type="text" name="email" required>
+    <label>Subiect</label>
+    <input type="text" name="subject" required>
     <label>Mesaj</label>
     <textarea name="content" rows="7"></textarea>                
     <button type="submit" name="button">Trimite</button>

@@ -13,6 +13,8 @@
 <body>
     <main>
         <section class="glass">
+            
+            <!--dashboard-->
             <div class="dashboard">
                 <div class="logo">
                     <a href="<%= "/" %>"><img src="/images/logo.png"></a>
@@ -24,12 +26,14 @@
                     <h2> <a href="<%= "/compose" %>">Postare noua</a></h2>
                 </div>
                 <div class="admin-link">
-                    <a href="<%= "/modify" %>"><img src="/images/posts.png"></a>
-                    <h2> <a href="<%= "/modify" %>">Toate postarile</a></h2>
+                    <a href="<%= "/admin" %>"><img src="/images/back.png"></a>
+                    <h2> <a href="<%= "/admin" %>">Inapoi</a></h2>
                 </div>
             </div>
+
             <div class="edit-section">
-                <div class="scroll-section-edit">
+                <!--preview of the post-->
+                <div class="form-edit">
                     <div class="articles">                  
                         <div class="article-card">
                             <div class="card-info-single">
@@ -39,13 +43,19 @@
                         </div>     
                     </div>
                 </div>
+
+                <!--Form section-->
                 <form class="form-edit" action="/edit" method="POST" enctype="multipart/form-data">
                     <h1>Editeaza postarea</h1>
                     <label>Titlu</label>
-                    <input type="text" name="editTitle" required>
+                    <div class="edit-seg"><input type="text" name="editTitle" required></div>
                     <label>Articol</label>
-                    <textarea name="editBody" rows="7"></textarea>                                
-                    <button type="submit" name="button">Posteaza</button>
+                    <div class="edit-seg"><textarea name="editBody" rows="7"></textarea></div>  
+                    <div class="edit-seg">
+                        <button class="button-upload" onclick="document.getElementById('image').click()">Incarca poza</button>
+                        <input type="file" id="image" name="image" value="" required style="display:none;">                            
+                        <button type="submit" name="button">Posteaza</button>
+                    </div>
                 </form>
             </div>
         </section>
