@@ -40,6 +40,7 @@ app.use(passport.session());
 //connect to db
 mongoose.connect(process.env.DB_SERVER, {useNewUrlParser: true, useUnifiedTopology: true});
 
+
 //post schema
 const postSchema = new mongoose.Schema({
     title: String,
@@ -152,7 +153,8 @@ app.get("/post/:postId", function(req, res){
     Post.findOne({_id: requestedPostId}, function(err, post){
         let newLine = post.content.replace(/(\r\n)/gm, '<br><br>');
         res.render("post", {
-            posts: post
+            posts: post,
+            content: newLine 
         });
     });
 });
